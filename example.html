@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Places Autocomplete</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script type="text/javascript" src='bsn_autosuggest.js'></script> 
+</head>
+  <body>
+      Select City: <input id="cityname" name="cityname" type="text" size="50" maxlength="255"><br/>
+      Center Lat Long: <input id="city_center_latlng" name="city_center_latlng" type="text" size="50" maxlength="255"><br/>
+      Search: <input id="searchbox" name="searchbox" type="text" size="50" maxlength="255">
+      
+  </body>
+</html>
+<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script> 
+<script>
+$(document).ready(function () {
+	var options = {
+		script:function (input) { return "http://localhost/autocomplete.php?json=true&cityname="+$('#cityname').val()+"&city_center_latlng="+$('#city_center_latlng').val()+"&q="+input+"&" },	
+		varname:"q",json:true,shownoresults:true,noresults:"No Results",maxresults:8,cache:true,timeout:100000,
+		callback: function (obj) {
+			var html = "ID : " + obj.id + "<br>Main Text : " + obj.value;
+			$('#input_search_all_response').html(html).show() ;
+			$('#searchbox').val(obj.id);
+		}
+	};
+	var as_json = new bsn.AutoSuggest('searchbox', options);
+});
+</script>
